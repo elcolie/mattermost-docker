@@ -23,8 +23,8 @@ services:
     build:
       context: app
       # uncomment following lines for team edition or change UID/GID
-      # args:
-      #   - edition=team
+      args:
+        - edition=team
       #   - PUID=1000
       #   - PGID=1000
     restart: unless-stopped
@@ -48,12 +48,12 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    read_only: true
+#    read_only: true
     restart: unless-stopped
     volumes:
       # This directory must have cert files if you want to enable SSL
       - ./volumes/web/cert:/cert:ro
       - /etc/localtime:/etc/localtime:ro
     # Uncomment for SSL
-    # environment:
-    #  - MATTERMOST_ENABLE_SSL=true
+    environment:
+      - MATTERMOST_ENABLE_SSL=true
