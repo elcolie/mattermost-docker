@@ -35,6 +35,8 @@ services:
       - ./volumes/app/mattermost/plugins:/mattermost/plugins:rw
       - ./volumes/app/mattermost/client-plugins:/mattermost/client/plugins:rw
       - /etc/localtime:/etc/localtime:ro
+    expose:
+      - 8000
     environment:
       # set same as db credentials and dbname
       - MM_USERNAME=mmuser
@@ -43,12 +45,25 @@ services:
       # in case your config is not in default location
       #- MM_CONFIG=/mattermost/config/config.json
 
+#  caddy:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    depends_on:
+#      - app
+#    volumes:
+#      - production_caddy:/root/.caddy
+#    environment:
+#      - DOMAIN_NAME=unicornonzen.com
+#    ports:
+#      - "0.0.0.0:80:80"
+#      - "0.0.0.0:443:443"
+
   web:
     build: web
     ports:
       - "80:80"
       - "443:443"
-#    read_only: true
     restart: unless-stopped
     volumes:
       # This directory must have cert files if you want to enable SSL
@@ -57,3 +72,6 @@ services:
     # Uncomment for SSL
     environment:
       - MATTERMOST_ENABLE_SSL=true
+
+volumes:
+  production_caddy: {}
