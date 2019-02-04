@@ -45,33 +45,19 @@ services:
       # in case your config is not in default location
       #- MM_CONFIG=/mattermost/config/config.json
 
-#  caddy:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    depends_on:
-#      - app
-#    volumes:
-#      - production_caddy:/root/.caddy
-#    environment:
-#      - DOMAIN_NAME=unicornonzen.com
-#    ports:
-#      - "0.0.0.0:80:80"
-#      - "0.0.0.0:443:443"
-
-  web:
-    build: web
-    ports:
-      - "80:80"
-      - "443:443"
-    restart: unless-stopped
+  caddy:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - app
     volumes:
-      # This directory must have cert files if you want to enable SSL
-      - ./volumes/web/cert:/cert:ro
-      - /etc/localtime:/etc/localtime:ro
-    # Uncomment for SSL
+      - production_caddy:/root/.caddy
     environment:
-      - MATTERMOST_ENABLE_SSL=true
+      - DOMAIN_NAME=unicornonzen.com
+    ports:
+      - "0.0.0.0:80:80"
+      - "0.0.0.0:443:443"
 
 volumes:
   production_caddy: {}

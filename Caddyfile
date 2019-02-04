@@ -1,0 +1,7 @@
+chat.{$DOMAIN_NAME} {
+    proxy / app:8000 {
+	websocket
+	transparent
+    }
+}
+
